@@ -8,8 +8,11 @@ html(lang='en')
     header
         h1 Koom
     main
+        form#nickname
+            input(type='text', placeholder="choose a nickname", requried)
+            button Save
         ul
-        form
+        form#message
             input(type='text', placeholder="write a msg", requried)
             button Send
     script(src="/public/js/app.js") 

@@ -1,10 +1,14 @@
 const socket = new WebSocket(`ws://${window.location.host}`);
 
 const messageList = document.querySelector("ul");
-const messageForm = document.querySelector("form");
-
+const messageForm = document.querySelector("#message");
+const nickForm = document.querySelector("#nickname");
 const handleOpen = () => console.log("Connected to Server ✅");
-const handleMessage = (message) => console.log("New message: ", message.data);
+const handleMessage = (message) => {
+  const li = document.createElement("li");
+  li.innerText = message.data;
+  messageList.append(li);
+};
 const handleClose = () => console.log("Disconnected from Server ❌");
 const handleSendMessage = (message) => socket.send(message);
 
@@ -17,8 +21,25 @@ socket.addEventListener("close", handleClose);
 const handleSubmit = (event) => {
   event.preventDefault();
   const input = messageForm.querySelector("input");
-  handleSendMessage(input.value);
-  input.value = "";
+  if (input.value !== "") {
+    handleSendMessage(makeMessage("new_message", input.value));
+    input.value = "";
+  } else {
+    alert("메세지를 입력하세요");
+  }
+};
+
+const handleNickSubmit = (event) => {
+  event.preventDefault();
+  const input = nickForm.querySelector("input");
+  handleSendMessage(makeMessage("nickname", input.value));
+};
+
+const makeMessage = (type, payload) => {
+  const msg = { type, payload };
+  return JSON.stringify(msg);
 };
 
 messageForm.addEventListener("submit", handleSubmit);
+
+nickForm.addEventListener("submit", handleNickSubmit);
