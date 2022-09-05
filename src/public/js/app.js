@@ -33,6 +33,7 @@ const handleNickSubmit = (event) => {
   event.preventDefault();
   const input = nickForm.querySelector("input");
   handleSendMessage(makeMessage("nickname", input.value));
+  input.value = "";
 };
 
 const makeMessage = (type, payload) => {
