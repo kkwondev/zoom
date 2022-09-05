@@ -17,12 +17,14 @@ const handleListen = () =>
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+const onSocketClose = () => console.log("Disconnected from the Browser");
+
+const onSocketMessage = (message) => console.log(message.toString("utf-8"));
+
 wss.on("connection", (socket) => {
   console.log("Connected to Browser!");
-  socket.on("close", () => console.log("close brower!"));
-  socket.on("message", (message) => {
-    console.log(message.toString("utf-8"));
-  });
+  socket.on("close", onSocketClose);
+  socket.on("message", onSocketMessage);
   socket.send("hello!!!");
 });
 
