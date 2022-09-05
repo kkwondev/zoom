@@ -23,6 +23,9 @@ const handleSubmit = (event) => {
   const input = messageForm.querySelector("input");
   if (input.value !== "") {
     handleSendMessage(makeMessage("new_message", input.value));
+    const li = document.createElement("li");
+    li.innerText = `You : ${input.value}`;
+    messageList.append(li);
     input.value = "";
   } else {
     alert("메세지를 입력하세요");
